@@ -4,6 +4,7 @@ import sys
 from pathlib import Path
 import yaml
 import click
+
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
@@ -15,6 +16,7 @@ from src.linkedIn_authenticator import LinkedInAuthenticator
 from src.linkedIn_bot_facade import LinkedInBotFacade
 from src.linkedIn_job_manager import LinkedInJobManager
 from src.job_application_profile import JobApplicationProfile
+
 
 # Suppress stderr
 sys.stderr = open(os.devnull, 'w')
@@ -219,5 +221,13 @@ def main(resume: Path = None):
         print(f"An unexpected error occurred: {str(e)}")
         print("Refer to the general troubleshooting guide: https://github.com/feder-cr/LinkedIn_AIHawk_automatic_job_application/blob/main/readme.md#configuration")
 
+@staticmethod
+def validate_data_folder(app_data_folder: Path) -> tuple:
+    print(f"Checking for data folder at: {app_data_folder}")  # Debug print statement
+    if not app_data_folder.exists() or not app_data_folder.is_dir():
+        raise FileNotFoundError(f"Data folder not found: {app_data_folder}")
+
+
 if __name__ == "__main__":
     main()
+
